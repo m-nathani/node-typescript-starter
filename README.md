@@ -10,9 +10,14 @@ An RESTful Node (Typescript) app for storing users and the lookups using KOA and
 
 ## Useful commands
 
-* `npm run dev`: start server in watch mode.
+* `npm run watch`: start server in watch mode.
 * `npm start`: start built server.
 * `npm run build`: build typescript files.
 
 ## Manage migrations
-Umzug is used for migrations, see `src/migrate.ts` for usage.	
+
+`typeorm` is used for migrations,
+* `npm run typeorm`: typeorm-cli.
+
+## LICENSE
+MIT

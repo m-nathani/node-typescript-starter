@@ -28,7 +28,6 @@
     "helmet",
     "sql",
     "api",
-    "rest",
     "cors"
   ],
   "repository": "github:javieraviles/node-typescript-koa-rest",
