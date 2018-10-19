@@ -9,9 +9,9 @@ export class User {
 
     @Column({
         nullable: false,
-        unique: true
+        unique: true,
     })
-    nic: number;
+    nic: string;
 
     @Column({
         length: 80,
@@ -34,7 +34,8 @@ export class User {
     email: string;
 
     @Column({
-        nullable: false
+        nullable: false,
+        select: false
     })
     password: string;
 

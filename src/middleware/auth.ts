@@ -10,6 +10,7 @@ export const auth = () => {
       ctx.state.message = 'Invalid token';
       throw 'Invalid token';
     }
+
     try {
       ctx.state.user = verify(token, config.jwtSecret);
     } catch (err) {
@@ -17,8 +18,7 @@ export const auth = () => {
       ctx.state.message = 'Invalid token: ' + err;
       throw 'Invalid token' + err;
     }
+
     await next();
   }
 }
-
-
