@@ -10,6 +10,7 @@ export interface IMetaData {
   offset?: number;
   totalCount?: number;
   stack?: string;
+  error?: string;
 }
 
 export interface IPagination {

@@ -2,6 +2,8 @@ import { BaseContext } from 'koa';
 import { getManager, Repository, Not, Equal } from 'typeorm';
 import { validate, ValidationError } from 'class-validator';
 import { User } from '../entity/user';
+import * as bcrypt from 'bcrypt';
+import { saltRounds } from '../constant';
 
 export default class UserController {
 
@@ -21,7 +23,7 @@ export default class UserController {
         // get a user repository to perform operations with user
         const userRepository: Repository<User> = getManager().getRepository(User);
         // load user by id
-        const user: User = await userRepository.findOne({ nic: +ctx.params.nic || 0 });
+        const user: User = await userRepository.findOne({ nic: ctx.params.nic || "0" });
         if (user) {
             // return OK status code and loaded user object
             ctx.status = 200;
@@ -41,7 +43,7 @@ export default class UserController {
 
         // build up entity user to be saved
         const userToBeSaved: User = new User();
-        userToBeSaved.nic = +ctx.request.body.nic;
+        userToBeSaved.nic = ctx.request.body.nic;
         userToBeSaved.firstName = ctx.request.body.firstName;
         userToBeSaved.lastName = ctx.request.body.lastName;
         userToBeSaved.email = ctx.request.body.email;
@@ -62,9 +64,10 @@ export default class UserController {
             ctx.state.message = 'The specified e-mail address already exists';
         } else {
             // save the user contained in the POST body
+            userToBeSaved.password = bcrypt.hashSync(userToBeSaved.password, bcrypt.genSaltSync(saltRounds));
             const user = await userRepository.save(userToBeSaved);
             // return CREATED status code and updated user
-            ctx.status = 201;
+            ctx.status = 200
             ctx.state.data = user;
         }
         await next();
@@ -79,11 +82,10 @@ export default class UserController {
         // build up entity user to be updated
         const userToBeUpdated: User = new User();
         userToBeUpdated.id = +ctx.params.id || 0; // will always have a number, this will avoid errors
-        userToBeUpdated.nic = +ctx.request.body.nic;
+        userToBeUpdated.nic = ctx.request.body.nic;
         userToBeUpdated.firstName = ctx.request.body.firstName;
         userToBeUpdated.lastName = ctx.request.body.lastName;
         userToBeUpdated.email = ctx.request.body.email;
-        userToBeUpdated.password = ctx.request.body.password;
         userToBeUpdated.gender = ctx.request.body.gender;
         userToBeUpdated.userType = +ctx.request.body.userType;
 
@@ -102,12 +104,12 @@ export default class UserController {
         } else if (await userRepository.findOne({ id: Not(Equal(userToBeUpdated.id)), email: userToBeUpdated.email })) {
             // return BAD REQUEST status code and email already exists error
             ctx.status = 400;
-            ctx.state.message = 'The specified e-mail address already exists';
+            ctx.state.message = 'The specified e-mail/nic address already exists';
         } else {
             // save the user contained in the PUT body
             const user = await userRepository.save(userToBeUpdated);
             // return CREATED status code and updated user
-            ctx.status = 201;
+            ctx.status = 200;
             ctx.state.data = user;
         }
         await next();

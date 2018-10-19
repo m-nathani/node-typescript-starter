@@ -7,8 +7,8 @@ const router = new Router();
 // GENERAL ROUTES
 router.get('/', controller.general.helloWorld);
 router.post('/login', controller.general.login);
-router.post('/forgetPassword', auth(), controller.general.forgetPassword);
-router.post('/resetPassword', auth(), controller.general.resetPassword);
+router.post('/forget/password', auth(), controller.general.forgetPassword);
+router.put('/reset/password', auth(), controller.general.resetPassword);
 
 
 // USER ROUTES
@@ -20,5 +20,6 @@ router.delete('/users/:id', auth(), controller.user.deleteUser);
 
 // LOOKUP ROUTES
 router.get('/lookups', auth(), controller.lookup.getLookups);
+router.get('/seed-lookups', controller.lookup.seedLookups);
 
 export { router };

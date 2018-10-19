@@ -10,7 +10,6 @@ export const bootstrap = async (): Promise<Boolean> => {
     // create connection with database
     database = await databaseConnection();
   } catch (err) {
-    database.close();
     console.log('bootstrap error', err);
   }
   return true;
