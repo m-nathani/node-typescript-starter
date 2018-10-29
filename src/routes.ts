@@ -6,23 +6,21 @@ const router = new Router();
 
 // GENERAL ROUTES
 router.get('/', controller.general.helloWorld);
-
 /*
   nic
   password
  */
 router.post('/login', controller.general.login);
 router.post('/forget/password', auth(), controller.general.forgetPassword);
-
-// password
+/*
+ password
+*/
 router.put('/reset/password', auth(), controller.general.resetPassword);
 
 
 // USER ROUTES
 router.get('/users', auth(), controller.user.getUsers);
-
 router.get('/users/:nic', auth(), controller.user.getUser);
-
 /*
   nic
   firstName
@@ -32,7 +30,7 @@ router.get('/users/:nic', auth(), controller.user.getUser);
   gender
   userType
  */
-router.post('/users', auth(), controller.user.createUser);
+router.post('/users', controller.user.createUser);
 router.put('/users/:id', auth(), controller.user.updateUser);
 router.delete('/users/:id', auth(), controller.user.deleteUser);
 
