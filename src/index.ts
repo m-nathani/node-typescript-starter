@@ -1,5 +1,5 @@
 import * as Koa from 'koa';
-import * as bodyParser from 'koa-bodyparser';
+import * as koaBody from 'koa-body';
 import * as helmet from 'koa-helmet';
 import * as cors from '@koa/cors';
 import * as winston from 'winston';
@@ -24,8 +24,8 @@ bootstrap().then(async connection => {
     // Logger middleware -> use winston as logger (logging.ts with config)
     app.use(logger(winston));
 
-    // Enable bodyParser with default options
-    app.use(bodyParser());
+    // Enable koa-body with custom options
+    app.use(koaBody({ jsonLimit: '50mb', formLimit: '50mb', multipart: true, json: true }));
 
     // Handle error on any throws
     app.use(error());
