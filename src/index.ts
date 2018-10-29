@@ -33,7 +33,7 @@ bootstrap().then(async connection => {
     // this routes are protected by the JWT middleware, also include middleware to respond with "Method Not Allowed - 405".
     app.use(router.routes()).use(router.allowedMethods());
 
-    // Enable response middleware 
+    // Enable response middleware
     app.use(response());
 
     app.listen(config.port);

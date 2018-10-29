@@ -34,5 +34,6 @@ doc
 
 #Env
 env
+environmnet-file
 .env
 *.secrets

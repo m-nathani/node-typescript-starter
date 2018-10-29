@@ -1,6 +1,6 @@
-import { BaseContext } from "koa";
+import { BaseContext } from 'koa';
 import { verify } from 'jsonwebtoken';
-import { config } from "../config";
+import { config } from '../config';
 
 export const auth = () => {
   return async (ctx: BaseContext, next: () => void) => {
@@ -20,5 +20,5 @@ export const auth = () => {
     }
 
     await next();
-  }
-}
+  };
+};

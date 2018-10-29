@@ -23,7 +23,7 @@ export default class UserController {
         // get a user repository to perform operations with user
         const userRepository: Repository<User> = getManager().getRepository(User);
         // load user by id
-        const user: User = await userRepository.findOne({ nic: ctx.params.nic || "0" });
+        const user: User = await userRepository.findOne({ nic: ctx.params.nic || '0' });
         if (user) {
             // return OK status code and loaded user object
             ctx.status = 200;
@@ -67,7 +67,7 @@ export default class UserController {
             userToBeSaved.password = bcrypt.hashSync(userToBeSaved.password, bcrypt.genSaltSync(saltRounds));
             const user = await userRepository.save(userToBeSaved);
             // return CREATED status code and updated user
-            ctx.status = 200
+            ctx.status = 200;
             ctx.state.data = user;
         }
         await next();
@@ -134,7 +134,7 @@ export default class UserController {
             await userRepository.remove(userToRemove);
             // return a NO CONTENT status code
             ctx.status = 204;
-            ctx.state.data = { 1: "removed" }
+            ctx.state.data = { 1: 'removed' };
         }
         await next();
     }

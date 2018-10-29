@@ -1,13 +1,33 @@
 version: '3.1'
 services :
   bitpoint-api:
-    
-
-  bitpoint-db:
-    image: postgres:10-alpine
-    ports:
-      - "5432:5432"
+    container_name: bitpoint-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+        - mysql
     env_file:
-      .env
-
- 
+      - .env
+    volumes:
+      - "./:/src"
+    ports:
+      - 4200:4200
+  
+  mysql:
+    container_name: bitpoint-db
+    image: mysql:5.7.22
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=bitpoint
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - DEFAULT_LANGUAGE=en-US
+    volumes:
+      - "mysql:/var/lib/mysql"
+    ports:
+      - 3307:3306
+    expose:
+      - 3307
+volumes:
+  mysql:
