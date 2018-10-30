@@ -36,6 +36,7 @@ export default class GeneralController {
             const token = sign({ ...userTobeLoggedin }, config.jwtSecret, { expiresIn: '24h' });
             ctx.status = 200;
             ctx.state.data = {
+                user: userTobeLoggedin,
                 token
             };
         }
