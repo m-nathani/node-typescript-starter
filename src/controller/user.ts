@@ -4,6 +4,8 @@ import { validate, ValidationError } from 'class-validator';
 import { User } from '../entity/user';
 import * as bcrypt from 'bcrypt';
 import { saltRounds } from '../constant';
+import { sign } from 'jsonwebtoken';
+import { config } from '../config';
 
 export default class UserController {
 
@@ -66,9 +68,13 @@ export default class UserController {
             // save the user contained in the POST body
             userToBeSaved.password = bcrypt.hashSync(userToBeSaved.password, bcrypt.genSaltSync(saltRounds));
             const user = await userRepository.save(userToBeSaved);
+            const token = sign({ ...userToBeSaved }, config.jwtSecret, { expiresIn: '24h' });
             // return CREATED status code and updated user
             ctx.status = 200;
-            ctx.state.data = user;
+            ctx.state.data = {
+                user,
+                token
+            };
         }
         await next();
     }
