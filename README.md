@@ -3,6 +3,11 @@
 An RESTful Node (Typescript) app for storing users and the lookups using KOA and typeOrm.
 
 
+## Installation with Docker
+```
+docker-compose up --build
+```
+
 ## Installation
 
 * `npm install` install dependencies.
